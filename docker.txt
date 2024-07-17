@@ -1,0 +1,374 @@
+# mongosh -u gabril -p gabriella --authenticationDatabase admin
+Current Mongosh Log ID: 669767a97c699e455d149f47
+Connecting to:          mongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.2.10
+Using MongoDB:          7.0.12
+Using Mongosh:          2.2.10
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-07-17T06:23:36.925+00:00: /sys/kernel/mm/transparent_hugepage/enabled is 'always'. We suggest setting it to 'never' in this binary version
+   2024-07-17T06:23:36.925+00:00: vm.max_map_count is too low
+------
+
+test> show dbs
+admin     100.00 KiB
+config    108.00 KiB
+local      72.00 KiB
+software  136.00 KiB
+test> use software
+switched to db software
+software> show collections
+playlist
+software
+songs
+tugas
+types
+software> db.types.find().pretty()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  }
+]
+software> db.types.insert({"code":15},{"description":"HipHop"})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('669768dc7c699e455d149f48') }
+}
+software> db.types.find({"code":15}).pretty()
+[ { _id: ObjectId('669768dc7c699e455d149f48'), code: 15 } ]
+software> db.types.find().pretty()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  { _id: ObjectId('669768dc7c699e455d149f48'), code: 15 }
+]
+software> db.types.insert({"code":15, "description":"HipHop"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('6697697d7c699e455d149f49') }
+}
+software> db.types.find().pretty()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  { _id: ObjectId('669768dc7c699e455d149f48'), code: 15 },
+  {
+    _id: ObjectId('6697697d7c699e455d149f49'),
+    code: 15,
+    description: 'HipHop'
+  }
+]
+software> db.types.delete({"code":15})
+TypeError: db.types.delete is not a function
+software> db.types.deleteOne({"code":15})
+{ acknowledged: true, deletedCount: 1 }
+software> db.types.find().pretty()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  {
+    _id: ObjectId('6697697d7c699e455d149f49'),
+    code: 15,
+    description: 'HipHop'
+  }
+]
+software> db.types.updateOne({"code":15, "description":"Dangdut"})
+MongoInvalidArgumentError: Update document requires atomic operators
+software> db.types.updateOne({"description":"Dangdut"})
+MongoInvalidArgumentError: Update document requires atomic operators
+software> db.types.update({"description":"Dangdut"})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+MongoshInvalidInputError: [COMMON-10001] Missing required argument at position 1 (Collection.update)
+software> db.types.updateOne({description:"Dangdut"})
+MongoInvalidArgumentError: Update document requires atomic operators
+software> db.types.updateOne({code:15, description:"Dangdut"})
+MongoInvalidArgumentError: Update document requires atomic operators
+software> db.types.updateOne({code:15}, {description:"Dangdut"})
+MongoInvalidArgumentError: Update document requires atomic operators
+software> db.types.updateOne({"code":15}, {"description":"Dangdut"})
+MongoInvalidArgumentError: Update document requires atomic operators
+software> db.types.updateOne($set: {"description":"Dangdut"})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:23)
+
+> 1 | db.types.updateOne($set: {"description":"Dangdut"})
+    |                        ^
+  2 |
+
+software> db.types.updateOne({description:"Dangdut"}, {$set: {description: "updateDescription}})
+Uncaught:
+SyntaxError: Unterminated string constant. (1:65)
+
+> 1 | db.types.updateOne({description:"Dangdut"}, {$set: {description: "updateDescription}})
+    |                                                                  ^
+  2 |
+
+software> db.types.find()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  {
+    _id: ObjectId('6697697d7c699e455d149f49'),
+    code: 15,
+    description: 'HipHop'
+  }
+]
+software> db.types.updateOne({description:"HipHop"}, {$set: {description: "Dangdut"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+software> db.types.find()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  {
+    _id: ObjectId('6697697d7c699e455d149f49'),
+    code: 15,
+    description: 'Dangdut'
+  }
+]
+software> db.types.deleteOne({"code":15, "decription":"Dangdut"})
+{ acknowledged: true, deletedCount: 0 }
+software> db.types.find()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  {
+    _id: ObjectId('6697697d7c699e455d149f49'),
+    code: 15,
+    description: 'Dangdut'
+  }
+]
+software> db.types.deleteOne({code:15, decription:"Dangdut"})
+{ acknowledged: true, deletedCount: 0 }
+software> db.types.find()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  },
+  {
+    _id: ObjectId('6697697d7c699e455d149f49'),
+    code: 15,
+    description: 'Dangdut'
+  }
+]
+software> db.types.deleteOne({"code":15})
+{ acknowledged: true, deletedCount: 1 }
+software> db.types.find()
+[
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb4'),
+    code: '1',
+    description: 'Jazz'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb5'),
+    code: '12',
+    description: 'Pop'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb6'),
+    code: '40',
+    description: 'Reggae'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb7'),
+    code: '88',
+    description: 'Country'
+  },
+  {
+    _id: ObjectId('6697209b7cf0cf31da1f9eb8'),
+    code: '77',
+    description: 'New Age'
+  }
+]
+software>
